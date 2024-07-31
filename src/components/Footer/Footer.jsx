@@ -1,8 +1,12 @@
-import React from 'react'
+import styles from "./FooterStyles.module.css"
 
 function Footer() {
   return (
-    <div>Footer</div>
+    <section id="footer" className={styles.container}>
+        <p>&copy; 2024 Dan Muchiri. <br />
+        All rights reserved.
+        </p>
+    </section>
   )
 }
 

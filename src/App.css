@@ -5,11 +5,11 @@
   --project-card-bg: #ffffff00; /* Transparent */
   --text-color:#000; 
   --form-text-color: #555; /* Slightly darker gray */
-  --footer-text-color: #888; /* Gray */
+  --footer-text-color: #990011; /* Gray */
 }
 
 [data-theme="dark"] {
-  --background-color: #000; /* Cherry Red */
+  --background-color: #222; /* Cherry Red */
   --btn-color: #fff; /* White */
   --btn-text-color: #990011; /* Cherry Red */
   --project-card-bg: #fff; /* White */
@@ -41,9 +41,6 @@ h2, h3, p {
   font-family: "Roboto Mono", monospace;
 }
 
-h1, h2 {
-  text-transform: uppercase;
-}
 
 h2, h3 {
   font-size: 20px;

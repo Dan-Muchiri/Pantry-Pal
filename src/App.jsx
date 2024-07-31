@@ -6,6 +6,7 @@ import Pantry from './components/Pantry/Pantry';
 import Recipes from './components/Recipes/Recipes';
 import Profile from './components/Profile/Profile';
 import Login from './components/Login/Login';
+import Footer from './components/Footer/Footer';
 import './App.css';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/login" element={<Login />} />
         </Routes>
       </main>
+      <Footer/>
     </div>
   );
 }
