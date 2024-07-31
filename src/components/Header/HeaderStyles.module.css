@@ -1,0 +1,132 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px; /* Adjust as needed */
+    color: var(--text-color);
+    background-color: var(--background-color); 
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+    z-index: 1000;
+    margin: 0;
+    overflow: hidden; /* To contain the pseudo-element */
+  }
+  
+  .header::after {
+    content: "";
+    display: block;
+    width: 90%; /* Half the width of the header */
+    border-bottom: 2px solid var(--btn-color); /* Adjust thickness and color as needed */
+    position: absolute;
+    bottom: 0;
+    left: 5%; /* Center it horizontally */
+  }
+  
+  .logo {
+    margin-left: 25px;
+    font-size: 28px;
+    font-weight: bold;
+    font-family: "Satisfy", cursive;
+    color: var(--btn-color);
+  }
+  
+  .nav ul {
+    list-style: none;
+    display: flex;
+    gap: 45px;
+    padding: 0;
+  }
+  
+  .nav ul li {
+    display: inline;
+  }
+  
+  .nav ul li a {
+    color: var(--text-color); 
+    text-decoration: none;
+    font-size: 18px;
+    font-family: "Roboto Mono", monospace;
+    transition: color 0.3s, text-decoration 0.3s;
+  }
+  
+  .nav ul li a:hover {
+    color: #990011; 
+    text-decoration: underline;
+  }
+  
+  .nav ul li a.active {
+    font-weight: bold;
+  }
+  
+  .themeIcon {
+    width: 35px;
+    margin-right: 20px;
+  }
+  
+  .themeIcon:hover {
+    cursor: pointer;
+  }
+  
+  /* Responsive Styles for Small Screens */
+  @media (max-width: 768px) {
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 15px;
+    }
+  
+    .logo {
+      margin-left: 0;
+      font-size: 24px;
+    }
+  
+    .nav {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+    }
+  
+    .nav ul {
+      flex-direction: row;
+      justify-content: space-evenly;
+      gap: 10px;
+      padding: 0;
+      width: 100%;
+      text-align: center;
+    }
+  
+    .nav ul li {
+      display: block;
+    }
+  
+    .nav ul li a {
+      font-size: 16px;
+    }
+  
+    .themeIcon {
+      width: 30px;
+      margin-right: 10px;
+      position: absolute;
+      top: 7px;
+      right: 5px;
+    }
+  }
+  
+  /* Styles for very small screens */
+  @media (max-width: 480px) {
+    .logo {
+      font-size: 20px;
+    }
+  
+    .nav ul li a {
+      font-size: 14px;
+    }
+  
+    .themeIcon {
+      width: 25px;
+    }
+  }
+  
