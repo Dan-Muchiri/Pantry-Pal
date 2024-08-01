@@ -46,7 +46,7 @@ function Register() {
       } else {
         const data = await response.json();
         console.error(data.error); // Log the error message
-        alert('Failed to sign up. Please check your input and try again.');
+        alert(`Failed to sign up. ${data.error}.`);
       }
     } catch (error) {
       console.error('Error occurred:', error);

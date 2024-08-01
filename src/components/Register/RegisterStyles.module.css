@@ -1,18 +1,3 @@
-:root {
-    --primary-color: #990011;
-    --secondary-color: #FCF6F5;
-    --form-background: #ffffff;
-    --input-border: #ccc;
-    --input-focus-border: #990011;
-    --error-color: #ff0000;
-    --border-radius: 8px;
-    --button-bg: #990011;
-    --button-text: #FCF6F5;
-    --button-hover-bg: #FCF6F5;
-    --button-hover-text: #990011;
-    --font-family: "Roboto Mono", monospace;
-  }
-  
   .container {
     display: flex;
     flex-direction: column;
