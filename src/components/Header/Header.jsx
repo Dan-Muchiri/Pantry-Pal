@@ -9,11 +9,7 @@ import useAuthStore from '../../common/AuthStore';
 function Header() {
   const { theme, toggleTheme } = useTheme();
   const themeIcon = theme === "light" ? sun : moon;
-  const { isLoggedIn, checkSession } = useAuthStore();
-
-  useEffect(() => {
-    checkSession();
-  }, [checkSession]);
+  const { isLoggedIn } = useAuthStore();
 
   return (
     <header className={styles.header}>

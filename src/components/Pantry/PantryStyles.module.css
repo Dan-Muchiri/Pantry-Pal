@@ -1,0 +1,97 @@
+.pantryContainer {
+    padding: 20px;
+    width: 800px;
+    margin: auto;
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .userInfo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .userPicture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+  
+  .username {
+    font-size: 29px;
+    color: var(--btn-color);
+    font-family: "Satisfy", cursive;
+  }
+  
+  .searchBar {
+    width: 70%;
+    padding: 8px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .filters {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .filter {
+    padding: 8px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .pantryList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    padding: 30px;
+  }
+  
+  .pantryItem {
+    padding: 10px 18px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--text-color);
+  }
+
+  .pantryItem {
+    padding: 10px 18px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  @media (max-width: 800px) {
+    .pantryContainer {
+      width: 300px;
+    }
+    .filters{
+        flex-direction: column;
+    }
+  }
+  
