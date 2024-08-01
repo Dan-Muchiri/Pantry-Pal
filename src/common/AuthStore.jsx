@@ -1,18 +1,31 @@
-// authStore.jsx
-import {create} from 'zustand';
+import { create } from 'zustand';
 
 const useAuthStore = create((set) => ({
-  isLoggedIn: false,
-  userId: null,
-  username: '',
-  userPicture: '',
+  isLoggedIn: localStorage.getItem('isLoggedIn') === 'true',
+  userId: localStorage.getItem('userId'),
+  username: localStorage.getItem('username'),
+  userPicture: localStorage.getItem('userPicture'),
   checkSession: async () => {
     try {
-      const response = await fetch('https://pantry-pal-backend-l9st.onrender.com/check_session');
+      console.log('Checking session...');
+      const response = await fetch('https://pantry-pal-backend-l9st.onrender.com/check_session', {
+        method: 'GET',
+        credentials: 'include' // Ensure cookies are sent with the request
+      });
       if (response.ok) {
         const user = await response.json();
+        console.log('User session found:', user);
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('userId', user.id);
+        localStorage.setItem('username', user.username);
+        localStorage.setItem('userPicture', user.picture);
         set({ isLoggedIn: true, userId: user.id, username: user.username, userPicture: user.picture });
       } else {
+        console.log('No user session found');
+        localStorage.setItem('isLoggedIn', 'false');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('username');
+        localStorage.removeItem('userPicture');
         set({ isLoggedIn: false, userId: null, username: '', userPicture: '' });
       }
     } catch (error) {
@@ -31,16 +44,18 @@ const useAuthStore = create((set) => ({
   
       if (response.ok) {
         const user = await response.json();
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('userId', user.userId);
+        localStorage.setItem('username', user.username);
+        localStorage.setItem('userPicture', user.picture);
         set({ isLoggedIn: true, userId: user.userId, username: user.username, userPicture: user.picture });
         navigate('/pantry');
       } else {
         const data = await response.json();
         if (response.status === 404) {
-          // Email not found
           console.error(data.error);
           alert('Email not found');
         } else if (response.status === 401) {
-          // Invalid password
           console.error(data.error);
           alert('Invalid password');
         } else {
@@ -53,12 +68,16 @@ const useAuthStore = create((set) => ({
       alert('An error occurred. Please try again later.');
     }
   },
-  logout: async (history) => {
+  logout: async (navigate) => {
     try {
       const response = await fetch('https://pantry-pal-backend-l9st.onrender.com/logout', {
         method: 'DELETE',
       });
       if (response.ok) {
+        localStorage.setItem('isLoggedIn', 'false');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('username');
+        localStorage.removeItem('userPicture');
         set({ isLoggedIn: false, userId: null, username: '', userPicture: '' });
         navigate('/');
       } else {
