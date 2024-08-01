@@ -101,15 +101,5 @@ button {
   }
 }
 
-@media(width >= 1400px){
-  #root{
-    gap: 200px;
-  }
-  h1{
-    font-size: 48px;
-  }
-  .sectionTitle{
-    margin-bottom: 75px;
-  }
-}
+
 

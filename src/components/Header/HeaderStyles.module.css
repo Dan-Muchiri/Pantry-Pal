@@ -32,12 +32,18 @@
     font-family: "Satisfy", cursive;
     color: var(--btn-color);
   }
+
+  .nav {
+    display: flex;
+    align-items: center;
+  }
   
   .nav ul {
     list-style: none;
     display: flex;
     gap: 45px;
     padding: 0;
+    margin-right: 45px;
   }
   
   .nav ul li {
@@ -70,8 +76,8 @@
     cursor: pointer;
   }
   
-  /* Responsive Styles for Small Screens */
-  @media (max-width: 768px) {
+
+  /* @media (max-width: 768px) {
     .header {
       flex-direction: column;
       align-items: flex-start;
@@ -87,6 +93,8 @@
       display: flex;
       flex-direction: row;
       width: 100%;
+      align-items: center;
+      justify-content: center;
     }
   
     .nav ul {
@@ -95,7 +103,6 @@
       gap: 10px;
       padding: 0;
       width: 100%;
-      text-align: center;
     }
   
     .nav ul li {
@@ -113,9 +120,9 @@
       top: 7px;
       right: 5px;
     }
-  }
+  } */
   
-  /* Styles for very small screens */
+
   @media (max-width: 480px) {
     .logo {
       font-size: 20px;
@@ -129,4 +136,4 @@
       width: 25px;
     }
   }
-  
+    

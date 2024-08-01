@@ -16,15 +16,15 @@ function Header() {
       <div className={styles.logo}>PantryPal</div>
       <nav className={styles.nav}>
         <ul>
-          <li><Link to="/pantry">Pantry</Link></li>
+          {/* <li><Link to="/pantry">Pantry</Link></li>
           <li><Link to="/recipes">Recipes</Link></li>
-          <li><Link to="/profile">Profile</Link></li>
+          <li><Link to="/profile">Profile</Link></li> */}
           <li><Link to="/login">Login</Link></li>
         </ul>
-      </nav>
-      <div onClick={toggleTheme}>
+        <div onClick={toggleTheme}>
         <img className={styles.themeIcon} src={themeIcon} alt="theme icon"/>
       </div>
+      </nav>
     </header>
     </>
     
