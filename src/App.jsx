@@ -8,6 +8,7 @@ import Profile from './components/Profile/Profile';
 import Login from './components/Login/Login';
 import Footer from './components/Footer/Footer';
 import './App.css';
+import Register from './components/Register/Register';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/recipes" element={<Recipes />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </main>
       <Footer/>
