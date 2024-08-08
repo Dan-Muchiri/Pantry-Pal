@@ -6,6 +6,7 @@
   --text-color:#000; 
   --form-text-color: #555; /* Slightly darker gray */
   --footer-text-color: #990011; /* Gray */
+  --pantry-item-color: #f0f0f0;
 }
 
 [data-theme="dark"] {
@@ -16,6 +17,7 @@
   --text-color: #fff; /* White */
   --form-text-color:#fff; /* White */
   --footer-text-color: #bbb; /* Light gray */
+  --pantry-item-color: #5f5c5c;
 }
 
 body {

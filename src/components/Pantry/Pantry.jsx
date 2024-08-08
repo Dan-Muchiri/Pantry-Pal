@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../../common/AuthStore';
 import styles from './PantryStyles.module.css';
 
@@ -8,6 +9,7 @@ function Pantry() {
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [storagePlaceFilter, setStoragePlaceFilter] = useState('All');
   const { username, userPicture } = useAuthStore();
+  const navigate = useNavigate(); // Initialize the navigate function
 
   useEffect(() => {
     // Fetch products from the backend
@@ -36,9 +38,8 @@ function Pantry() {
   });
 
   const handleClick = (item) => {
-    // Handle the click event for a pantry item
-    console.log('Clicked item:', item);
-    // You can add more logic here to navigate to a detail page or show more info
+    // Navigate to the product detail page with item ID
+    navigate(`/products/${item.id}`);
   };
 
   return (
