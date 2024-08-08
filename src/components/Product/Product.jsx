@@ -12,6 +12,14 @@ function Product() {
     product_id: id
   });
   const [showForm, setShowForm] = useState(false); // State to toggle form visibility
+  const [isEditing, setIsEditing] = useState(false); // State to toggle edit form visibility
+  const [editProduct, setEditProduct] = useState({
+    name: '',
+    category: '',
+    unit: '',
+    storage_place: '',
+    low_limit: ''
+  });
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -22,6 +30,14 @@ function Product() {
         });
         const item = await response.json();
         setProduct(item);
+        // Initialize edit form values
+        setEditProduct({
+          name: item.name,
+          category: item.category,
+          unit: item.unit,
+          storage_place: item.storage_place,
+          low_limit: item.low_limit
+        });
       } catch (error) {
         console.error('Error fetching product:', error);
       }
@@ -41,16 +57,16 @@ function Product() {
         credentials: 'include',
         body: JSON.stringify(newProductItem),
       });
-  
+
       if (response.ok) {
         const addedItem = await response.json();
-        
+
         // Update the product quantity
         const updatedProduct = {
           ...product,
           quantity: product.quantity + addedItem.quantity
         };
-  
+
         // PATCH request to update the product's quantity
         const updateResponse = await fetch(`https://pantry-pal-backend-l9st.onrender.com/products/${id}`, {
           method: 'PATCH',
@@ -60,7 +76,7 @@ function Product() {
           credentials: 'include',
           body: JSON.stringify({ quantity: updatedProduct.quantity }),
         });
-  
+
         if (updateResponse.ok) {
           setProduct((prevProduct) => ({
             ...prevProduct,
@@ -79,7 +95,6 @@ function Product() {
       console.error('Error adding product item:', error);
     }
   };
-  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -87,6 +102,37 @@ function Product() {
       ...prevItem,
       [name]: value,
     }));
+  };
+
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditProduct((prevProduct) => ({
+      ...prevProduct,
+      [name]: value,
+    }));
+  };
+
+  const handleSaveProduct = async () => {
+    try {
+      const response = await fetch(`https://pantry-pal-backend-l9st.onrender.com/products/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(editProduct),
+      });
+
+      if (response.ok) {
+        const updatedProduct = await response.json();
+        setProduct(updatedProduct);
+        setIsEditing(false); // Hide the edit form after saving
+      } else {
+        console.error('Failed to update product');
+      }
+    } catch (error) {
+      console.error('Error updating product:', error);
+    }
   };
 
   if (!product) return <div>Loading...</div>;
@@ -101,7 +147,7 @@ function Product() {
 
       {/* Button to show/hide the form */}
       <button onClick={() => setShowForm(!showForm)} className={styles.addProductItemButton}>
-        {showForm ? 'Cancel' : `Add purchased ${product.name}`}
+        {showForm ? 'Cancel' : `Add new purchased ${product.name}`}
       </button>
 
       {/* Form to add a new product item */}
@@ -129,6 +175,57 @@ function Product() {
             onChange={handleInputChange}
           />
           <button onClick={handleAddProductItem}>Add Product Item</button>
+        </div>
+      )}
+
+      {/* Button to toggle edit mode */}
+      <button onClick={() => setIsEditing(!isEditing)} className={styles.editProductButton}>
+        {isEditing ? 'Cancel Editing' : 'Edit Product'}
+      </button>
+
+      {/* Form to edit product attributes */}
+      {isEditing && (
+        <div className={styles.editProductForm}>
+          <input
+            type="text"
+            name="name"
+            placeholder="Name"
+            value={editProduct.name}
+            onChange={handleEditChange}
+          />
+          <select name="category" value={editProduct.category} onChange={handleEditChange}>
+            <option value="" disabled>Select Category</option>
+            <option value="Fruits">Fruits</option>
+            <option value="Vegetables">Vegetables</option>
+            <option value="Dairy">Dairy</option>
+            <option value="Meat">Meat</option>
+            <option value="Beverages">Beverages</option>
+            <option value="Grains & Pasta">Grains & Pasta</option>
+            <option value="Spices & Herbs">Spices & Herbs</option>
+            <option value="Condiments & Sauces">Condiments & Sauces</option>
+            <option value="Eggs">Eggs</option>
+            <option value="Ready Meals">Ready Meal</option>
+          </select>
+          <select name="unit" value={editProduct.unit} onChange={handleEditChange}>
+            <option value="" disabled>Select Unit</option>
+            <option value="pieces">pieces</option>
+            <option value="liters">liters</option>
+            <option value="kilograms">kilograms</option>
+          </select>
+          <select name="storage_place" value={editProduct.storage_place} onChange={handleEditChange}>
+            <option value="" disabled>Select Storage Place</option>
+            <option value="Pantry">Pantry</option>
+            <option value="Fridge">Fridge</option>
+            <option value="Freezer">Freezer</option>
+          </select>
+          <input
+            type="number"
+            name="low_limit"
+            placeholder="Low Limit"
+            value={editProduct.low_limit}
+            onChange={handleEditChange}
+          />
+          <button onClick={handleSaveProduct}>Save Changes</button>
         </div>
       )}
 
