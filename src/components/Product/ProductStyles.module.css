@@ -6,6 +6,7 @@
     background-color: var(--background-color);
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
   }
   
   .productDetailContainer h1 {
@@ -40,10 +41,6 @@
     color: var(--text-color);
   }
   
-  .productItemsTable tbody tr:hover {
-    background-color: var(--pantry-item-color);
-    cursor: pointer;
-  }
   
   .addProductItemButton, .editProductButton {
     padding: 10px;
@@ -93,6 +90,47 @@
     background-color:  #FCF6F5;
     color: #990011;
   }
+
+  .deleteButton {
+    background: none; /* No background */
+    border: none; /* Remove default border */
+    cursor: pointer; /* Pointer cursor on hover */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+    display: flex; /* Flexbox to center the icon */
+    align-items: center; /* Center vertically */
+  }
+  
+  .deleteButton:hover {
+    opacity: 0.7; /* Slightly dim on hover */
+  }
+  
+  .deleteIcon {
+    width: 24px; /* Set a fixed width for the icon */
+    height: 24px; /* Set a fixed height for the icon */
+    object-fit: cover; /* Cover the container while maintaining aspect ratio */
+    transition: transform 0.2s ease-in-out; /* Smooth transformation on hover */
+  }
+  
+  .deleteIcon:hover, .deleteProductButton img:hover{
+    transform: scale(1.1); /* Slightly enlarge on hover */
+  }
+
+  .deleteProductButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .deleteProductButton img {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.2s ease-in-out;
+  }
+  
   
   /* Responsive Styles */
   @media (max-width: 600px) {

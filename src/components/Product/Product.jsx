@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './ProductStyles.module.css';
+import { useTheme } from "../../common/ThemeContext"
+import lightDelete from "../../assets/light- delete.png"
+import darkDelete from "../../assets/dark-delete.png"
+import { useNavigate } from 'react-router-dom';
 
 function Product() {
+  const { theme } = useTheme();
+  const navigate = useNavigate();
+  const deleteIcon = theme === "light" ? lightDelete : darkDelete;
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [newProductItem, setNewProductItem] = useState({
@@ -11,8 +18,8 @@ function Product() {
     expiry_date: '',
     product_id: id
   });
-  const [showForm, setShowForm] = useState(false); // State to toggle form visibility
-  const [isEditing, setIsEditing] = useState(false); // State to toggle edit form visibility
+  const [showForm, setShowForm] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [editProduct, setEditProduct] = useState({
     name: '',
     category: '',
@@ -30,7 +37,6 @@ function Product() {
         });
         const item = await response.json();
         setProduct(item);
-        // Initialize edit form values
         setEditProduct({
           name: item.name,
           category: item.category,
@@ -48,7 +54,6 @@ function Product() {
 
   const handleAddProductItem = async () => {
     try {
-      // First, add the new product item
       const response = await fetch(`https://pantry-pal-backend-l9st.onrender.com/product_items`, {
         method: 'POST',
         headers: {
@@ -61,13 +66,11 @@ function Product() {
       if (response.ok) {
         const addedItem = await response.json();
 
-        // Update the product quantity
         const updatedProduct = {
           ...product,
           quantity: product.quantity + addedItem.quantity
         };
 
-        // PATCH request to update the product's quantity
         const updateResponse = await fetch(`https://pantry-pal-backend-l9st.onrender.com/products/${id}`, {
           method: 'PATCH',
           headers: {
@@ -83,8 +86,8 @@ function Product() {
             product_items: [...prevProduct.product_items, addedItem],
             quantity: updatedProduct.quantity
           }));
-          setShowForm(false); // Hide the form after adding the item
-          setNewProductItem({ brand_name: '', quantity: 0, expiry_date: '' }); // Reset the form fields
+          setShowForm(false);
+          setNewProductItem({ brand_name: '', quantity: 0, expiry_date: '' });
         } else {
           console.error('Failed to update product quantity');
         }
@@ -126,7 +129,7 @@ function Product() {
       if (response.ok) {
         const updatedProduct = await response.json();
         setProduct(updatedProduct);
-        setIsEditing(false); // Hide the edit form after saving
+        setIsEditing(false);
       } else {
         console.error('Failed to update product');
       }
@@ -135,22 +138,82 @@ function Product() {
     }
   };
 
+  const handleDeleteProductItem = async (itemId) => {
+    try {
+      const response = await fetch(`https://pantry-pal-backend-l9st.onrender.com/product_items/${itemId}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+  
+      if (response.ok) {
+        const deletedItem = product.product_items.find(item => item.id === itemId);
+        const updatedProductItems = product.product_items.filter(item => item.id !== itemId);
+  
+        const updatedProduct = {
+          ...product,
+          product_items: updatedProductItems,
+          quantity: product.quantity - deletedItem.quantity,
+        };
+  
+        const updateResponse = await fetch(`https://pantry-pal-backend-l9st.onrender.com/products/${id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({ quantity: updatedProduct.quantity }),
+        });
+  
+        if (updateResponse.ok) {
+          setProduct(updatedProduct);
+        } else {
+          console.error('Failed to update product quantity');
+        }
+      } else {
+        console.error('Failed to delete product item');
+      }
+    } catch (error) {
+      console.error('Error deleting product item:', error);
+    }
+  };
+
+  const handleDeleteProduct = async () => {
+    try {
+      const response = await fetch(`https://pantry-pal-backend-l9st.onrender.com/products/${id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+
+      if (response.ok) {
+        // Redirect or perform any action after successful deletion
+        console.log('Product deleted successfully');
+        navigate(`/pantry`)
+      } else {
+        console.error('Failed to delete product');
+      }
+    } catch (error) {
+      console.error('Error deleting product:', error);
+    }
+  };
+  
+
   if (!product) return <div>Loading...</div>;
 
   return (
     <div className={styles.productDetailContainer}>
+      <button onClick={handleDeleteProduct} className={styles.deleteProductButton}>
+      <img src={deleteIcon} alt="Delete icon" />
+      </button>
       <h1>{product.name}</h1>
       <p>Category: {product.category}</p>
       <p>Quantity: {product.quantity} {product.unit}</p>
       <p>Storage Place: {product.storage_place}</p>
       <p>Low limit: {product.low_limit} {product.unit}</p>
 
-      {/* Button to show/hide the form */}
       <button onClick={() => setShowForm(!showForm)} className={styles.addProductItemButton}>
         {showForm ? 'Cancel' : `Add new purchased ${product.name}`}
       </button>
 
-      {/* Form to add a new product item */}
       {showForm && (
         <div className={styles.addProductItemForm}>
           <input
@@ -178,12 +241,10 @@ function Product() {
         </div>
       )}
 
-      {/* Button to toggle edit mode */}
       <button onClick={() => setIsEditing(!isEditing)} className={styles.editProductButton}>
         {isEditing ? 'Cancel Editing' : 'Edit Product'}
       </button>
 
-      {/* Form to edit product attributes */}
       {isEditing && (
         <div className={styles.editProductForm}>
           <input
@@ -229,7 +290,6 @@ function Product() {
         </div>
       )}
 
-      {/* Product Items Table */}
       {product.product_items && product.product_items.length > 0 && (
         <table className={styles.productItemsTable}>
           <thead>
@@ -237,6 +297,7 @@ function Product() {
               <th>Brand Name</th>
               <th>Quantity</th>
               <th>Expiry Date</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -245,9 +306,15 @@ function Product() {
                 <td>{item.brand_name}</td>
                 <td>{item.quantity}</td>
                 <td>{item.expiry_date}</td>
+                <td>
+                  <button onClick={() => handleDeleteProductItem(item.id)} className={styles.deleteButton}>
+                    <img className={styles.deleteIcon} src={deleteIcon} alt="Delete icon" />
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
+
         </table>
       )}
     </div>

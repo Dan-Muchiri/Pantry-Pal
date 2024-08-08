@@ -68,10 +68,7 @@ p {
 }
 
 button {
-  background-color: var(--btn-color);
-  color: var(--btn-text-color);
   border: none;
-  padding: 10px 20px;
   cursor: pointer;
   font-size: 16px;
 }
