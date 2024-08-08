@@ -1,0 +1,92 @@
+/* Container for the entire recipes section */
+.recipesContainer {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Header styling */
+  .recipesContainer h1 {
+    text-align: center;
+    color: var(--text-color);
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    font-family: "Satisfy", cursive;
+  }
+  
+  /* Style for the no recipes found message */
+  .recipesContainer p {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #777;
+  }
+  
+  /* Flexbox layout for the recipe cards */
+  .recipesList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+  }
+  
+  /* Individual recipe card styling */
+  .recipeCard {
+    background-color: var(--recipe-card);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: calc(33.333% - 20px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s ease-in-out;
+    padding: 20px;
+  }
+  
+  .recipeCard:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* Image styling */
+  .recipeCard img {
+    width: 90%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  /* Title styling */
+  .recipeCard h2 {
+    font-size: 1.5rem;
+    color: var(--text-color);
+    margin: 15px 0;
+    text-align: center;
+    padding: 0 10px;
+  }
+  
+  /* Missing ingredients info */
+  .recipeCard p {
+    font-size: 1rem;
+    color: var(--text-color);
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  /* Responsive design for smaller screens */
+  @media (max-width: 768px) {
+    .recipeCard {
+      width: calc(50% - 20px);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .recipeCard {
+      width: 100%;
+    }
+  
+    .recipesContainer h1 {
+      font-size: 2rem;
+    }
+  }
+  
