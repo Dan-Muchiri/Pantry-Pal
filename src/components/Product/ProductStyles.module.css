@@ -44,6 +44,39 @@
     background-color: var(--pantry-item-color);
     cursor: pointer;
   }
+
+  .addProductItemButton {
+    padding: 10px;
+    background-color: var(--btn-color);
+    color: var(--btn-text-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+  
+  .addProductItemForm {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .addProductItemForm input,
+  .addProductItemForm select {
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .addProductItemForm button {
+    padding: 10px;
+    background-color: var(--btn-color);
+    color: var(--btn-text-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
   
   /* Responsive Styles */
   @media (max-width: 600px) {

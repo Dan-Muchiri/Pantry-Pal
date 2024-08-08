@@ -19,7 +19,7 @@ function Pantry() {
     storage_place: '', // Set to empty string
     quantity: 0,
     unit: '', // Set to empty string
-    low_limit: 0,
+    low_limit: '',
     user_id: userId // Add user_id field
   });
   
@@ -112,12 +112,16 @@ function Pantry() {
       <div className={styles.filters}>
         <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} className={styles.filter}>
           <option value="All">All Categories</option>
-          <option value="Beverages">Beverages</option>
-          <option value="Meat">Meat</option>
-          <option value="Dairy">Dairy</option>
-          <option value="Vegetables">Vegetables</option>
           <option value="Fruits">Fruits</option>
-          <option value="Snacks">Snacks</option>
+            <option value="Vegetables">Vegetables</option>
+            <option value="Dairy">Dairy</option>
+            <option value="Meat">Meat</option>
+            <option value="Beverages">Beverages</option>
+            <option value="Grains & Pasta">Grains & Pasta</option>
+            <option value="Spices & Herbs">Spices & Herbs</option>
+            <option value="Condiments & Sauces">Condiments & Sauces</option>
+            <option value="Eggs">Eggs</option>
+            <option value="Ready Meals">Ready Meal</option>
         </select>
         <select value={storagePlaceFilter} onChange={(e) => setStoragePlaceFilter(e.target.value)} className={styles.filter}>
           <option value="All">All Storage Places</option>
