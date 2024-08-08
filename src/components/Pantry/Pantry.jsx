@@ -8,8 +8,22 @@ function Pantry() {
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [storagePlaceFilter, setStoragePlaceFilter] = useState('All');
-  const { username, userPicture } = useAuthStore();
-  const navigate = useNavigate(); // Initialize the navigate function
+  const [showForm, setShowForm] = useState(false); // State to toggle form visibility
+
+  const { username, userPicture, userId } = useAuthStore();
+
+
+  const [newProduct, setNewProduct] = useState({
+    name: '',
+    category: '', // Set to empty string
+    storage_place: '', // Set to empty string
+    quantity: 0,
+    unit: '', // Set to empty string
+    low_limit: 0,
+    user_id: userId // Add user_id field
+  });
+  
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch products from the backend
@@ -29,7 +43,46 @@ function Pantry() {
     fetchProducts();
   }, []);
 
-  // Filter products based on the search query, category, and storage space
+  const handleAddProduct = async () => {
+    try {
+      console.log(JSON.stringify({ ...newProduct, user_id: userId }));
+      const response = await fetch('https://pantry-pal-backend-l9st.onrender.com/products', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ ...newProduct, user_id: userId }), // Include user_id when adding the product
+      });
+      if (response.ok) {
+        const addedProduct = await response.json();
+        setProducts([...pantryItems, addedProduct]); // Update state with new product
+        setShowForm(false); // Hide the form
+        setNewProduct({
+          name: '',
+          category: '',
+          storage_place: '',
+          quantity: 0,
+          unit: '',
+          low_limit: 0,
+          user_id: userId // Reset form including user_id
+        });
+      } else {
+        console.error('Failed to add product');
+      }
+    } catch (error) {
+      console.error('Error adding product:', error);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewProduct((prevProduct) => ({
+      ...prevProduct,
+      [name]: value,
+    }));
+  };
+
   const filteredItems = pantryItems.filter(item => {
     const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = categoryFilter === 'All' || item.category === categoryFilter;
@@ -38,7 +91,6 @@ function Pantry() {
   });
 
   const handleClick = (item) => {
-    // Navigate to the product detail page with item ID
     navigate(`/products/${item.id}`);
   };
 
@@ -66,7 +118,6 @@ function Pantry() {
           <option value="Vegetables">Vegetables</option>
           <option value="Fruits">Fruits</option>
           <option value="Snacks">Snacks</option>
-          {/* Add more categories as needed */}
         </select>
         <select value={storagePlaceFilter} onChange={(e) => setStoragePlaceFilter(e.target.value)} className={styles.filter}>
           <option value="All">All Storage Places</option>
@@ -75,6 +126,53 @@ function Pantry() {
           <option value="Pantry">Pantry</option>
         </select>
       </div>
+      <button className={styles.addProductButton} onClick={() => setShowForm(!showForm)}>
+        {showForm ? 'Cancel' : 'Add New Product'}
+      </button>
+      {showForm && (
+        <div className={styles.addProductForm}>
+          <input
+            type="text"
+            name="name"
+            placeholder="Product Name"
+            value={newProduct.name}
+            onChange={handleInputChange}
+          />
+          <select name="category" value={newProduct.category} onChange={handleInputChange}>
+            <option value="" disabled>Select Category</option>
+            <option value="Fruits">Fruits</option>
+            <option value="Vegetables">Vegetables</option>
+            <option value="Dairy">Dairy</option>
+            <option value="Meat">Meat</option>
+            <option value="Beverages">Beverages</option>
+            <option value="Grains & Pasta">Grains & Pasta</option>
+            <option value="Spices & Herbs">Spices & Herbs</option>
+            <option value="Condiments & Sauces">Condiments & Sauces</option>
+            <option value="Eggs">Eggs</option>
+            <option value="Ready Meals">Ready Meal</option>
+          </select>
+          <select name="storage_place" value={newProduct.storage_place} onChange={handleInputChange}>
+            <option value="" disabled>Select Storage Place</option>
+            <option value="Pantry">Pantry</option>
+            <option value="Fridge">Fridge</option>
+            <option value="Freezer">Freezer</option>
+          </select>
+          <select name="unit" value={newProduct.unit} onChange={handleInputChange}>
+            <option value="" disabled>Select Unit</option>
+            <option value="pieces">pieces</option>
+            <option value="liters">liters</option>
+            <option value="kilograms">kilograms</option>
+          </select>
+          <input
+            type="number"
+            name="low_limit"
+            placeholder="Low Limit"
+            value={newProduct.low_limit}
+            onChange={handleInputChange}
+          />
+          <button onClick={handleAddProduct}>Add Product</button>
+        </div>
+      )}
       <div className={styles.pantryList}>
         {filteredItems.map(item => (
           <button key={item.id} className={styles.pantryItem} onClick={() => handleClick(item)}>

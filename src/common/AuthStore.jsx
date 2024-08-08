@@ -45,10 +45,10 @@ const useAuthStore = create((set) => ({
       if (response.ok) {
         const user = await response.json();
         localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('userId', user.userId);
+        localStorage.setItem('userId', user.id);
         localStorage.setItem('username', user.username);
         localStorage.setItem('userPicture', user.picture);
-        set({ isLoggedIn: true, userId: user.userId, username: user.username, userPicture: user.picture });
+        set({ isLoggedIn: true, userId: user.id, username: user.username, userPicture: user.picture });
         navigate('/pantry');
       } else {
         const data = await response.json();
